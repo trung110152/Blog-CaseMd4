@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkRole = void 0;
 const checkRole = (req, res, next) => {
-    if (req.decode.role === 'admin') {
+    if (req.decode.role === 'member') {
         next();
     }
     else {

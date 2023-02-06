@@ -132,6 +132,7 @@ function showNav() {
     <button onclick="showFormAdd()">Add</button>
     <button onclick="showHome()">Home</button>
     <button onclick="logout()">logout</button>
+   
     <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
     `)} else {
             $('#nav').html(`
@@ -143,8 +144,63 @@ function showNav() {
 
     } else {
         $('#nav').html(`
-    <button onclick="showFormLogin()">Login</button>
-    <button onclick="showFormRegister()">Register</button>
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+\t width="800px" height="600px" viewBox="0 0 800 600" enable-background="new 0 0 800 600" xml:space="preserve">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="174.7899" y1="186.34" x2="330.1259" y2="186.34" gradientTransform="matrix(0.8538 0.5206 -0.5206 0.8538 147.9521 -79.1468)">
+\t<stop  offset="0" style="stop-color:#FFC035"/>
+\t<stop  offset="0.221" style="stop-color:#F9A639"/>
+\t<stop  offset="1" style="stop-color:#E64F48"/>
+</linearGradient>
+<circle fill="url(#SVGID_1_)" cx="266.498" cy="211.378" r="77.668"/>
+<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="290.551" y1="282.9592" x2="485.449" y2="282.9592">
+\t<stop  offset="0" style="stop-color:#FFA33A"/>
+\t<stop  offset="0.0992" style="stop-color:#E4A544"/>
+\t<stop  offset="0.9624" style="stop-color:#00B59C"/>
+</linearGradient>
+<circle fill="url(#SVGID_2_)" cx="388" cy="282.959" r="97.449"/>
+<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="180.3469" y1="362.2723" x2="249.7487" y2="362.2723">
+\t<stop  offset="0" style="stop-color:#12B3D6"/>
+\t<stop  offset="1" style="stop-color:#7853A8"/>
+</linearGradient>
+<circle fill="url(#SVGID_3_)" cx="215.048" cy="362.272" r="34.701"/>
+<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="367.3469" y1="375.3673" x2="596.9388" y2="375.3673">
+\t<stop  offset="0" style="stop-color:#12B3D6"/>
+\t<stop  offset="1" style="stop-color:#7853A8"/>
+</linearGradient>
+<circle fill="url(#SVGID_4_)" cx="482.143" cy="375.367" r="114.796"/>
+<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="365.4405" y1="172.8044" x2="492.4478" y2="172.8044" gradientTransform="matrix(0.8954 0.4453 -0.4453 0.8954 127.9825 -160.7537)">
+\t<stop  offset="0" style="stop-color:#FFA33A"/>
+\t<stop  offset="1" style="stop-color:#DF3D8E"/>
+</linearGradient>
+<circle fill="url(#SVGID_5_)" cx="435.095" cy="184.986" r="63.504"/>
+</svg>
+
+
+<div class="container">
+  <h2>login</h2>
+  <form>
+    <input type="text" class="email" placeholder="email">
+    <br/>
+    <input type="text" class="pwd" placeholder="password">
+  </form>
+  <a href="#" class="link">
+    forgot your password ?
+  </a>
+  <br/>
+  <button class="register" onclick="showFormRegister()">
+    <span>register</span>
+  </button>
+  <button class="signin" onclick="showFormLogin()">
+    <span>sign in</span>
+  </button>
+  <h3>your registration is complete !    </h3>
+  <h3>your sign in is complete !</h3>
+  <div class="reg"></div>
+  <div class="sig"></div>
+
+ 
+ 
+</div>
     `)
     }
 }
@@ -193,7 +249,7 @@ function add() {
                     },
                     data: JSON.stringify(blogCategory),
 
-                    success: (blogCategory) => {
+                    success: () => {
                         // console.log(blogCategory,222222)
                         showHome()
                     }
@@ -288,7 +344,7 @@ function uploadImage(e) {
     let uploadTask = storageRef.put(file);
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         function (snapshot) {
-            uploader.value = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
             switch (snapshot.state) {
                 case firebase.storage.TaskState.PAUSED:
                     break;
@@ -367,9 +423,63 @@ function searchProduct(value) {
 
 function showFormLogin() {
     $('#body').html(` 
-             <input type="text" id = "username" placeholder="username"> 
-             <input type="password" id = "password" placeholder="password"> 
-             <button onclick="login()">Login</button>
+             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+\t width="800px" height="600px" viewBox="0 0 800 600" enable-background="new 0 0 800 600" xml:space="preserve">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="174.7899" y1="186.34" x2="330.1259" y2="186.34" gradientTransform="matrix(0.8538 0.5206 -0.5206 0.8538 147.9521 -79.1468)">
+\t<stop  offset="0" style="stop-color:#FFC035"/>
+\t<stop  offset="0.221" style="stop-color:#F9A639"/>
+\t<stop  offset="1" style="stop-color:#E64F48"/>
+</linearGradient>
+<circle fill="url(#SVGID_1_)" cx="266.498" cy="211.378" r="77.668"/>
+<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="290.551" y1="282.9592" x2="485.449" y2="282.9592">
+\t<stop  offset="0" style="stop-color:#FFA33A"/>
+\t<stop  offset="0.0992" style="stop-color:#E4A544"/>
+\t<stop  offset="0.9624" style="stop-color:#00B59C"/>
+</linearGradient>
+<circle fill="url(#SVGID_2_)" cx="388" cy="282.959" r="97.449"/>
+<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="180.3469" y1="362.2723" x2="249.7487" y2="362.2723">
+\t<stop  offset="0" style="stop-color:#12B3D6"/>
+\t<stop  offset="1" style="stop-color:#7853A8"/>
+</linearGradient>
+<circle fill="url(#SVGID_3_)" cx="215.048" cy="362.272" r="34.701"/>
+<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="367.3469" y1="375.3673" x2="596.9388" y2="375.3673">
+\t<stop  offset="0" style="stop-color:#12B3D6"/>
+\t<stop  offset="1" style="stop-color:#7853A8"/>
+</linearGradient>
+<circle fill="url(#SVGID_4_)" cx="482.143" cy="375.367" r="114.796"/>
+<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="365.4405" y1="172.8044" x2="492.4478" y2="172.8044" gradientTransform="matrix(0.8954 0.4453 -0.4453 0.8954 127.9825 -160.7537)">
+\t<stop  offset="0" style="stop-color:#FFA33A"/>
+\t<stop  offset="1" style="stop-color:#DF3D8E"/>
+</linearGradient>
+<circle fill="url(#SVGID_5_)" cx="435.095" cy="184.986" r="63.504"/>
+</svg>
+
+
+<div class="container">
+  <h2>login</h2>
+  <form>
+    <input type="text" class="email" placeholder="email">
+    <br/>
+    <input type="text" class="pwd" placeholder="password">
+  </form>
+  <a href="#" class="link">
+    forgot your password ?
+  </a>
+  <br/>
+  <button class="register" onclick="signup()">
+    <span>register</span>
+  </button>
+  <button class="signin" onclick="login()">
+    <span>sign in</span>
+  </button>
+  <h3>your registration is complete !    </h3>
+  <h3>your sign in is complete !</h3>
+  <div class="reg"></div>
+  <div class="sig"></div>
+
+ 
+ 
+</div>
 `)
 }
 
@@ -406,9 +516,63 @@ function logout() {
 
 function showFormRegister() {
     $('#body').html(` 
-             <input type="text" id = "username" placeholder="username"> 
-             <input type="password" id = "password" placeholder="password"> 
-             <button onclick="signup()">Signup</button>
+             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+\t width="800px" height="600px" viewBox="0 0 800 600" enable-background="new 0 0 800 600" xml:space="preserve">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="174.7899" y1="186.34" x2="330.1259" y2="186.34" gradientTransform="matrix(0.8538 0.5206 -0.5206 0.8538 147.9521 -79.1468)">
+\t<stop  offset="0" style="stop-color:#FFC035"/>
+\t<stop  offset="0.221" style="stop-color:#F9A639"/>
+\t<stop  offset="1" style="stop-color:#E64F48"/>
+</linearGradient>
+<circle fill="url(#SVGID_1_)" cx="266.498" cy="211.378" r="77.668"/>
+<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="290.551" y1="282.9592" x2="485.449" y2="282.9592">
+\t<stop  offset="0" style="stop-color:#FFA33A"/>
+\t<stop  offset="0.0992" style="stop-color:#E4A544"/>
+\t<stop  offset="0.9624" style="stop-color:#00B59C"/>
+</linearGradient>
+<circle fill="url(#SVGID_2_)" cx="388" cy="282.959" r="97.449"/>
+<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="180.3469" y1="362.2723" x2="249.7487" y2="362.2723">
+\t<stop  offset="0" style="stop-color:#12B3D6"/>
+\t<stop  offset="1" style="stop-color:#7853A8"/>
+</linearGradient>
+<circle fill="url(#SVGID_3_)" cx="215.048" cy="362.272" r="34.701"/>
+<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="367.3469" y1="375.3673" x2="596.9388" y2="375.3673">
+\t<stop  offset="0" style="stop-color:#12B3D6"/>
+\t<stop  offset="1" style="stop-color:#7853A8"/>
+</linearGradient>
+<circle fill="url(#SVGID_4_)" cx="482.143" cy="375.367" r="114.796"/>
+<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="365.4405" y1="172.8044" x2="492.4478" y2="172.8044" gradientTransform="matrix(0.8954 0.4453 -0.4453 0.8954 127.9825 -160.7537)">
+\t<stop  offset="0" style="stop-color:#FFA33A"/>
+\t<stop  offset="1" style="stop-color:#DF3D8E"/>
+</linearGradient>
+<circle fill="url(#SVGID_5_)" cx="435.095" cy="184.986" r="63.504"/>
+</svg>
+
+
+<div class="container">
+  <h2>login</h2>
+  <form>
+    <input type="text" class="email" placeholder="email">
+    <br/>
+    <input type="text" class="pwd" placeholder="password">
+  </form>
+  <a href="#" class="link">
+    forgot your password ?
+  </a>
+  <br/>
+  <button class="register" onclick="signup()">
+    <span>register</span>
+  </button>
+  <button class="signin" onclick="login()">
+    <span>sign in</span>
+  </button>
+  <h3>your registration is complete !    </h3>
+  <h3>your sign in is complete !</h3>
+  <div class="reg"></div>
+  <div class="sig"></div>
+
+ 
+ 
+</div>
 `)
 }
 

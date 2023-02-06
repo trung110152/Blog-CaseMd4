@@ -13,7 +13,7 @@ exports.blogRouter.use(auth_1.auth);
 exports.blogRouter.get('/', HomeController_1.default.getAll);
 exports.blogRouter.post('/', checkRole_1.checkRole, HomeController_1.default.create);
 exports.blogRouter.put('/:id', checkRole_1.checkRole, HomeController_1.default.update);
-exports.blogRouter.delete('/:id', checkRole_1.checkRole, HomeController_1.default.remove);
+exports.blogRouter.delete('/:id', HomeController_1.default.remove);
 exports.blogRouter.get('/findById/:id', HomeController_1.default.findById);
 exports.blogRouter.get('/getCategories', HomeController_1.default.getCategories);
 exports.blogRouter.get('/search/findByName', HomeController_1.default.search);

@@ -11,6 +11,8 @@ declare class UserService {
         token: any;
     }>;
     save: (user: any) => Promise<any>;
+    findById: (id: any) => Promise<any>;
+    update: (id: any, newUser: any) => Promise<any>;
 }
 declare const _default: UserService;
 export default _default;

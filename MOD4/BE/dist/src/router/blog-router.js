@@ -18,4 +18,5 @@ exports.blogRouter.get('/findById/:id', HomeController_1.default.findById);
 exports.blogRouter.get('/getCategories', HomeController_1.default.getCategories);
 exports.blogRouter.get('/search/findByName', HomeController_1.default.search);
 exports.blogRouter.post('/blogCategory', checkRole_1.checkRole, HomeController_1.default.saveBlogCategory);
+exports.blogRouter.get('/myList/:id', HomeController_1.default.getMyList);
 //# sourceMappingURL=blog-router.js.map

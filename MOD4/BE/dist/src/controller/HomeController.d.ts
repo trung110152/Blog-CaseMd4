@@ -4,6 +4,7 @@ declare class HomeController {
     private categoryService;
     constructor();
     getAll: (req: Request, res: Response) => Promise<void>;
+    getMyList: (req: Request, res: Response) => Promise<void>;
     findById: (req: Request, res: Response) => Promise<void>;
     create: (req: Request, res: Response) => Promise<void>;
     saveBlogCategory: (req: Request, res: Response) => Promise<void>;

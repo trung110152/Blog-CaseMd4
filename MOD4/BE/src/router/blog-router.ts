@@ -12,3 +12,4 @@ blogRouter.get('/findById/:id', homeController.findById);
 blogRouter.get('/getCategories', homeController.getCategories);
 blogRouter.get('/search/findByName', homeController.search);
 blogRouter.post('/blogCategory',checkRole , homeController.saveBlogCategory);
+blogRouter.get('/myList/:id', homeController.getMyList);

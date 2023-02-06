@@ -1,9 +1,10 @@
 showNav();
+
 function showList() {
     let token = localStorage.getItem('token')
-    if(token){
+    if (token) {
         token = JSON.parse(token)
-        // console.log(token.role)
+
         $.ajax({
             type: 'GET',
             url: 'http://localhost:3000/blogs',
@@ -12,39 +13,75 @@ function showList() {
                 Authorization: 'Bearer ' + token.token
             },
             success: (blogs) => {
-                // console.log(blogs);
-                let html = '';
-                if(token.role === 'admin'){
+                let html = `<div id="carouselExampleIndicators" class="carousel slide" >
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="../BE/public/images/iphone.jpg" class="d-block w-100" alt="..." width="100%" height="400px">
+    </div>
+    <div class="carousel-item">
+      <img src="../BE/public/images/iphone.jpg" class="d-block w-100" alt="..." width="100%" height="400px">
+    </div>
+    <div class="carousel-item">
+      <img src="../BE/public/images/iphone.jpg" class="d-block w-100" alt="..." width="100%" height="400px">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<div class="row row-cols-1 row-cols-md-3 g-4">`;
+                if (token.role === 'admin') {
                     blogs.map(item => {
-                        html += `<tr>
-             <td>${item.id}</td>
-            <td>${item.content}</td>
-            <td>${item.status}</td>
-            <td><img style="height: 200px;width: 200px" src="${item.image}" alt=""></td>
-            <td>${item.date}</td>
-            <td>${item.username}</td>
-            <td>${item.nameCategory}</td>
-            <td><button onclick="remove(${item.id})">Delete</button></td>
-           
-        </tr>`
+                        html += `
+<div class="col">
+
+
+
+      <div class="card" style="width: 18rem;">
+                                  <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
+                                  <div class="card-body">
+                                    <h5 class="card-title">${item.nameCategory}</h5>
+                                    <h6 class="card-title">${item.status},${item.date}</h6>
+                                     <h6 class="card-title">${item.username}</h6>
+                                    <p class="card-text">${item.content}</p>
+                                    <a href="#" class="btn btn-primary" onclick="remove(${item.id})">Delete</a>
+                                  </div>
+                                </div>
+</div>
+
+                                
+       `
                     })
+                    html +=`</div>`
                     $('#tbody').html(html)
-                }
-                else {
+                } else {
                     blogs.map(item => {
-                        html += `<tr>
-            <td>${item.id}</td>
-            <td>${item.content}</td>
-            <td>${item.status}</td>
-            <td><img style="height: 200px;width: 200px" src="${item.image}" alt=""></td>
-            <td>${item.date}</td>
-            <td>${item.username}</td>
-            <td>${item.nameCategory}</td>
-            
- 
-          
-        </tr>`
+                        html += `
+                           
+                                <div class="card" style="width: 18rem;">
+                                  <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
+                                  <div class="card-body">
+                                    <h5 class="card-title">${item.nameCategory}</h5>
+                                    <h6 class="card-title">${item.status},${item.date}</h6>
+                                     <h6 class="card-title">${item.username}</h6>
+                                    <p class="card-text">${item.content}</p>
+                                  
+                                  </div>
+                                </div>
+                           
+                            `
                     })
+                    html +=`</div>`
                     $('#tbody').html(html)
                 }
 
@@ -86,113 +123,190 @@ function showFormAdd() {
     token = JSON.parse(token)
     // console.log(token)
     $('#body').html(` 
-             <input type="text" id = "content" placeholder="content"> 
-             <input type="text" id = "status" placeholder="status"> 
-             <input type="file" id="fileButton" onchange="uploadImage(event)">
+ <div  style="display: flex; justify-content: center">
+ <form style="width: 50%">
+ <div> <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Content</label>
+    <input type="text" class="form-control" id="content" aria-describedby="emailHelp"  >
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Status</label>
+    <input type="text" class="form-control" id="status">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Image</label>
+    <input type="file" id="fileButton" onchange="uploadImage(event)">
              <div id="imgDiv"></div>
-             <input type="text" id = "date" placeholder="date"> 
-             <p>${token.username}</p>
-             <select id="categoryAdd">
+  </div>
+   <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Date</label>
+    <input type="text" class="form-control" id="date">
+  </div>
+  <div>
+    <label for="exampleInputPassword1" class="form-label">Category</label>
+  <select id="categoryAdd">
 <!--             <option selected>Category</option>-->
              </select>
-    <button onclick="add()">Add</button>`)
+</div>
+  
+  <button class="btn btn-primary" onclick="add()">Add</button>
+   </div>
+</form>
+</div>
+ 
+`)
     getCategoriesCreate();
 }
 
 function showHome() {
     $('#body').html(`
+        <div id="tbody">
+                         
 
-    <table border="1">
-        <thead>
-        <tr>
-            <td>ID</td>
-            <td>Content</td>
-            <td>Status</td>
-            <td>Image</td>
-            <td>Date</td>
-            <td>Username</td>
-            <td>Category</td>
-            <td colspan="2">Action</td>
-        </tr>
-        </thead>
-        <tbody id="tbody">
-
-        </tbody>
-    </table>`)
+        </div>
+   `)
     showList();
 }
 
 function showNav() {
     let token = localStorage.getItem('token');
     token = JSON.parse(token)
-    if(token){
-        if(token.role === 'member'){
-            $('#nav').html(`
-    <button onclick="showFormAdd()">Add</button>
-    <button onclick="showHome()">Home</button>
-    <button onclick="logout()">logout</button>
-    <button onclick="showMyList()">My List</button>
-    <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
-    `)} else {
+    if (token) {
+        if (token.role === 'member') {
             $('#nav').html(`
 
-    <button onclick="userManager()">User Manager</button>
-    <button onclick="logout()">logout</button>
-    <button onclick="showHome()">Home</button>
-    <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
+<nav class="navbar" style="background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">${token.username}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="showHome()">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showFormAdd()">Add</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" href="#" onclick="logout()">LogOut</a>
+        </li>
+     
+        <li class="nav-item">
+          <a class="nav-link" onclick="showMyList()">My List</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onkeyup="searchProduct(this.value)">
+<!--        <button class="btn btn-outline-success" type="submit">Search</button>-->
+      </form>
+    </div>
+  </div>
+</nav>
+
+    `)
+        } else {
+            $('#nav').html(`
+<nav class="navbar" style="background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">${token.username}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" onclick="showHome()">Home</a>
+        </li>
+       
+         <li class="nav-item">
+          <a class="nav-link" href="#" onclick="logout()">LogOut</a>
+        </li>
+     
+        <li class="nav-item">
+          <a class="nav-link" onclick="userManager()">User Manager</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onkeyup="searchProduct(this.value)">
+<!--        <button class="btn btn-outline-success" type="submit">Search</button>-->
+      </form>
+    </div>
+  </div>
+</nav>
+
     `)
         }
 
     } else {
         $('#nav').html(`
-    <button onclick="showFormLogin()">Login</button>
-    <button onclick="showFormRegister()">Register</button>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+   
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        
+       
+         <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showFormLogin()" style="color: blue">Login</a>
+        </li>
+     
+        <li class="nav-item">
+          <a class="nav-link" onclick="showFormRegister()" style="color: red">Register</a>
+        </li>
+      </ul>
+  
+    </div>
+  </div>
+</nav>
+
     `)
     }
 }
- function showMyList() {
-     let token = localStorage.getItem('token')
-     if(token) {
-         token = JSON.parse(token)
-         console.log(token, 2)
-         $.ajax({
-             type: 'GET',
-             url: `http://localhost:3000/blogs/myList/${token.idUser}`,
-             headers: {
-                 'Content-Type': 'application/json',
-                 Authorization: 'Bearer ' + token.token
-             },
-             success: (blogs) => {
-                 let html = '';
 
-                 blogs.map(item => {
-                     html += `<tr>
-            <td>${item.id}</td>
-            <td>${item.content}</td>
-            <td>${item.status}</td>
-            <td><img style="height: 200px;width: 200px" src="${item.image}" alt=""></td>
-            <td>${item.date}</td>
-            <td>${item.username}</td>
-            <td>${item.nameCategory}</td>
-            <td><button onclick="remove(${item.id})">Delete</button></td>
-            <td><button onclick="showFormEdit(${item.id})">Edit</button></td>
- 
-          
-        </tr>`
-                 })
-                 $('#tbody').html(html)
-             }
-
-
-         })
-
-     }
-
- }
-
-function userManager(){
+function showMyList() {
     let token = localStorage.getItem('token')
-    if(token){
+    if (token) {
+        token = JSON.parse(token)
+        console.log(token, 2)
+        $.ajax({
+            type: 'GET',
+            url: `http://localhost:3000/blogs/myList/${token.idUser}`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token.token
+            },
+            success: (blogs) => {
+                let html = '';
+
+                blogs.map(item => {
+                    html += `<div class="card" style="width: 18rem;">
+                                  <img src="${item.image}" class="card-img-top" alt="...">
+                                  <div class="card-body">
+                                    <h5 class="card-title">${item.nameCategory}</h5>
+                                    <h6 class="card-title">${item.status},${item.date}</h6>
+                                     <h6 class="card-title">${item.username}</h6>
+                                    <p class="card-text">${item.content}</p>
+                                    <a href="#" class="btn btn-primary" onclick="remove(${item.id})">Delete</a>
+                                    <a href="#" class="btn btn-primary" onclick="showFormEdit(${item.id})">Edit</a>
+
+                                  </div>
+                                </div>`
+                })
+                $('#tbody').html(html)
+            }
+
+
+        })
+
+    }
+
+}
+
+function userManager() {
+    let token = localStorage.getItem('token')
+    if (token) {
         token = JSON.parse(token)
         // console.log(token.role)
         $.ajax({
@@ -205,23 +319,23 @@ function userManager(){
             success: (users) => {
                 // console.log(users);
                 let html = '';
-                    users.map(item => {
-                        html += `<tr>
+                users.map(item => {
+                    html += `<tr>
              <td>${item.id}</td>
             <td>${item.username}</td>
             <td>${item.role}</td>
             <td><button onclick="lock(${item.id})">${item.status}</button></td>
             <td><button onclick="deleteRemove(${item.id})">Delete</button></td>
         </tr>`
-                    })
-                    $('#tbody').html(html)
+                })
+                $('#tbody').html(html)
             }
         })
     }
 }
 
 function lock(id) {
-    if(confirm('lock ?')){
+    if (confirm('lock ?')) {
         let token = localStorage.getItem('token')
         if (token) {
             token = JSON.parse(token)
@@ -243,8 +357,8 @@ function lock(id) {
 
 function add() {
     let token = localStorage.getItem('token')
-    // console.log(token,154)
-    if(token){
+    // console.log(token)
+    if (token) {
         token = JSON.parse(token)
         let content = $('#content').val();
         let status = $('#status').val();
@@ -271,8 +385,8 @@ function add() {
             success: (newBlog) => {
                 let idBlog = newBlog.id;
                 let blogCategory = {
-                    idBlog : idBlog,
-                    idCategory : category
+                    idBlog: idBlog,
+                    idCategory: category
                 }
                 $.ajax({
                     type: 'POST',
@@ -284,7 +398,7 @@ function add() {
                     data: JSON.stringify(blogCategory),
 
                     success: (blogCategory) => {
-                        console.log(blogCategory,197)
+                        console.log(blogCategory, 197)
                         showHome()
                     }
                 })
@@ -295,7 +409,7 @@ function add() {
 }
 
 function remove(id) {
-    if(confirm('You are sure?')){
+    if (confirm('You are sure?')) {
         let token = localStorage.getItem('token')
         if (token) {
             token = JSON.parse(token)
@@ -327,10 +441,23 @@ function showFormEdit(id) {
             },
             success: (blogs) => {
                 $('#body').html(`
-<input type="text" id="content" placeholder="content" value="${blogs.content}">     
-       <input type="file" id="fileButton" onchange="uploadImage(event)">
-        <div id="imgDiv"><img src="${blogs.image}" alt=""></div>
-        <button onclick="edit('${id}')">Edit</button>`)
+ <div  style="display: flex; justify-content: center">
+ <form style="width: 50%">
+ <div> <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Content</label>
+    <input type="text" class="form-control" id="content" aria-describedby="emailHelp" value="${blogs.content}" >
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Image</label>
+    <input type="file" id="fileButton" onchange="uploadImage(event)">
+             <div id="imgDiv"><img src="${blogs.image}" alt=""></div>
+  </div>
+  <button type="submit" class="btn btn-primary" onclick="edit()">Edit</button>
+   </div>
+</form>
+</div>
+ 
+`)
             }
         })
 
@@ -450,9 +577,37 @@ function searchProduct(value) {
 
 function showFormLogin() {
     $('#body').html(` 
-             <input type="text" id = "username" placeholder="username"> 
-             <input type="password" id = "password" placeholder="password"> 
-             <button onclick="login()">Login</button>
+ <div class="login-box">
+  <h2>Login</h2>
+  <form>
+    <div class="user-box">
+      <input id="username" type="text" name="" required="">
+      <label>Username</label>
+    </div>
+    <div class="user-box">
+      <input id="password" type="password" name="" required="">
+      <label>Password</label>
+    </div>
+    <a href="#" onclick="login()">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Login
+    </a>
+    <a href="#" onclick="showFormRegister()">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Register
+     
+    </a>
+    
+  </form>
+</div>
+<link rel="stylesheet" href="../BE/public/blog.css">
+            
 `)
 }
 
@@ -473,10 +628,10 @@ function login() {
         data: JSON.stringify(user),
 
         success: (token) => {
-            if(token === "Username is not existed" ||token === 'Password is wrong' ){
+            if (token === "Username is not existed" || token === 'Password is wrong') {
                 alert('Can not')
                 showNav();
-            }else{
+            } else {
                 localStorage.setItem('token', JSON.stringify(token));
                 showNav();
                 showHome();
@@ -495,9 +650,35 @@ function logout() {
 
 function showFormRegister() {
     $('#body').html(` 
-             <input type="text" id = "username" placeholder="username"> 
-             <input type="password" id = "password" placeholder="password"> 
-             <button onclick="signup()">Signup</button>
+ <div class="login-box">
+  <h2>Register</h2>
+  <form>
+    <div class="user-box">
+      <input id="username" type="text" name="" required="">
+      <label>Username</label>
+    </div>
+    <div class="user-box">
+      <input id="password" type="password" name="" required="">
+      <label>Password</label>
+    </div>
+    <a href="#" onclick="signup()">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Register
+    </a>
+    <a href="#" onclick="showFormLogin()">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Login
+    </a>
+  </form>
+</div>
+<link rel="stylesheet" href="../BE/public/blog.css">
+            
 `)
 }
 
@@ -518,9 +699,9 @@ function signup() {
         data: JSON.stringify(user),
 
         success: (user) => {
-            if(user === 'Username registered'){
+            if (user === 'Username registered') {
                 alert('Username registered')
-            }else {
+            } else {
                 showFormLogin()
             }
 

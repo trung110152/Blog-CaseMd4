@@ -9,6 +9,11 @@ class BlogService {
             let blogs = await this.blogRepository.query(sql);
             return blogs;
         };
+        this.getMyList = async (id) => {
+            let sql = `select b.id, b.content, b.status, b.date, b.image, u.username, c.name as nameCategory from blog_category bc join blog b on bc.idBlog = b.id join category c on bc.idCategory = c.id join user u on b.user = u.id where b.user = ${id} `;
+            let blogs = await this.blogRepository.query(sql);
+            return blogs;
+        };
         this.save = async (blog) => {
             return this.blogRepository.save(blog);
         };

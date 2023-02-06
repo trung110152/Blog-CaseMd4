@@ -125,13 +125,13 @@ function showHome() {
 function showNav() {
     let token = localStorage.getItem('token');
     token = JSON.parse(token)
-    // console.log(token.role)
     if(token){
         if(token.role === 'member'){
             $('#nav').html(`
     <button onclick="showFormAdd()">Add</button>
     <button onclick="showHome()">Home</button>
     <button onclick="logout()">logout</button>
+    <button onclick="showMyList()">My List</button>
     <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
     `)} else {
             $('#nav').html(`
@@ -150,6 +150,45 @@ function showNav() {
     `)
     }
 }
+ function showMyList() {
+     let token = localStorage.getItem('token')
+     if(token) {
+         token = JSON.parse(token)
+         console.log(token, 2)
+         $.ajax({
+             type: 'GET',
+             url: `http://localhost:3000/blogs/myList/${token.idUser}`,
+             headers: {
+                 'Content-Type': 'application/json',
+                 Authorization: 'Bearer ' + token.token
+             },
+             success: (blogs) => {
+                 let html = '';
+
+                 blogs.map(item => {
+                     html += `<tr>
+            <td>${item.id}</td>
+            <td>${item.content}</td>
+            <td>${item.status}</td>
+            <td><img style="height: 200px;width: 200px" src="${item.image}" alt=""></td>
+            <td>${item.date}</td>
+            <td>${item.username}</td>
+            <td>${item.nameCategory}</td>
+            <td><button onclick="remove(${item.id})">Delete</button></td>
+            <td><button onclick="showFormEdit(${item.id})">Edit</button></td>
+ 
+          
+        </tr>`
+                 })
+                 $('#tbody').html(html)
+             }
+
+
+         })
+
+     }
+
+ }
 
 function userManager(){
     let token = localStorage.getItem('token')
@@ -286,15 +325,12 @@ function showFormEdit(id) {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token.token
             },
-            success: (product) => {
+            success: (blogs) => {
                 $('#body').html(`
-<input type="text" id="name" placeholder="Name" value="${product.name}">
-        <input type="text" id="price" placeholder="Price" value="${product.price}">
-     
+<input type="text" id="content" placeholder="content" value="${blogs.content}">     
        <input type="file" id="fileButton" onchange="uploadImage(event)">
-        <div id="imgDiv"><img src="${product.image}" alt=""></div>
-        <input type="text" id="category" placeholder="Category" value="${product.category}">
-        <button onclick="edit(${id})">Edit</button>`)
+        <div id="imgDiv"><img src="${blogs.image}" alt=""></div>
+        <button onclick="edit('${id}')">Edit</button>`)
             }
         })
 
@@ -305,15 +341,11 @@ function edit(id) {
     let token = localStorage.getItem('token')
     if (token) {
         token = JSON.parse(token)
-        let name = $('#name').val();
-        let price = $('#price').val();
+        let content = $('#content').val();
         let image = localStorage.getItem('image')
-        let category = $('#category').val();
-        let product = {
-            name: name,
-            price: price,
+        let blog = {
+            content: content,
             image: image,
-            category: category
         }
         $.ajax({
             type: 'PUT',
@@ -322,7 +354,7 @@ function edit(id) {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token.token
             },
-            data: JSON.stringify(product),
+            data: JSON.stringify(blog),
 
             success: () => {
                 showHome()

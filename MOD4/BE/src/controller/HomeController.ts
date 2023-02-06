@@ -18,11 +18,20 @@ class HomeController {
             res.status(500).json(e.message)
         }
     }
+    getMyList = async (req: Request, res: Response) => {
+        try{
+            let id = req.params.id
+            let blogs = await blogService.getMyList(id);
+            res.status(200).json(blogs)
+        } catch (e) {
+            res.status(500).json(e.message)
+        }
+    }
 
     findById = async (req: Request, res: Response) => {
         try{
             let id = req.params.id
-            let blog = await blogService.findById(id);
+            let blog = await this.blogService.findById(id);
             res.status(200).json(blog)
         } catch (e) {
             res.status(500).json(e.message)

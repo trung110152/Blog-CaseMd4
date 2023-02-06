@@ -10,6 +10,6 @@ export class User {
     password: string
     @Column({default: 'member'})
     role: string
-    @Column({default: 'unlock'})
+    @Column({default: 'lock'})
     status: string
 }

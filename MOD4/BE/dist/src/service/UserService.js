@@ -23,7 +23,7 @@ class UserService {
         };
         this.checkUser = async (user) => {
             let userCheck = await this.userRepository.findOneBy({ username: user.username });
-            if (!userCheck) {
+            if (!userCheck || userCheck.status === "unlock") {
                 return 'Username is not existed';
             }
             let comparePassword = await bcrypt_1.default.compare(user.password, userCheck.password);
@@ -52,6 +52,16 @@ class UserService {
         };
         this.save = async (user) => {
             return this.userRepository.save(user);
+        };
+        this.findById = async (id) => {
+            let user = await this.userRepository.findOneBy({ id: id });
+            if (!user) {
+                return null;
+            }
+            return user;
+        };
+        this.update = async (id, newUser) => {
+            return await this.userRepository.update({ id: id }, newUser);
         };
         this.userRepository = data_source_1.AppDataSource.getRepository(user_1.User);
     }

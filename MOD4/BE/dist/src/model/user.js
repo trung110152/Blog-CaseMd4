@@ -30,7 +30,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: 'unlock' }),
+    (0, typeorm_1.Column)({ default: 'lock' }),
     __metadata("design:type", String)
 ], User.prototype, "status", void 0);
 User = __decorate([

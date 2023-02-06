@@ -12,7 +12,7 @@ function showList() {
                 Authorization: 'Bearer ' + token.token
             },
             success: (blogs) => {
-                console.log(blogs);
+                // console.log(blogs);
                 let html = '';
                 if(token.role === 'admin'){
                     blogs.map(item => {
@@ -135,8 +135,10 @@ function showNav() {
     <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
     `)} else {
             $('#nav').html(`
-    <button onclick="showHome()">Home</button>
+
+    <button onclick="userManager()">User Manager</button>
     <button onclick="logout()">logout</button>
+    <button onclick="showHome()">Home</button>
     <input type="search" id="search" placeholder="Enter name" onkeyup="searchProduct(this.value)">
     `)
         }
@@ -149,9 +151,60 @@ function showNav() {
     }
 }
 
+function userManager(){
+    let token = localStorage.getItem('token')
+    if(token){
+        token = JSON.parse(token)
+        // console.log(token.role)
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:3000/auth',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token.token
+            },
+            success: (users) => {
+                // console.log(users);
+                let html = '';
+                    users.map(item => {
+                        html += `<tr>
+             <td>${item.id}</td>
+            <td>${item.username}</td>
+            <td>${item.role}</td>
+            <td><button onclick="lock(${item.id})">${item.status}</button></td>
+            <td><button onclick="deleteRemove(${item.id})">Delete</button></td>
+        </tr>`
+                    })
+                    $('#tbody').html(html)
+            }
+        })
+    }
+}
+
+function lock(id) {
+    if(confirm('lock ?')){
+        let token = localStorage.getItem('token')
+        if (token) {
+            token = JSON.parse(token)
+            $.ajax({
+                type: 'PUT',
+                url: `http://localhost:3000/auth/lock/${id}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token.token
+                },
+                success: () => {
+                    userManager();
+                }
+            })
+        }
+    }
+
+}
+
 function add() {
     let token = localStorage.getItem('token')
-    // console.log(token)
+    // console.log(token,154)
     if(token){
         token = JSON.parse(token)
         let content = $('#content').val();
@@ -167,6 +220,7 @@ function add() {
             date: date,
             user: user
         }
+        console.log(blog,170)
         $.ajax({
             type: 'POST',
             url: 'http://localhost:3000/blogs',
@@ -177,13 +231,12 @@ function add() {
             data: JSON.stringify(blog),
 
             success: (newBlog) => {
+                console.log(newBlog)
                 let idBlog = newBlog.id;
                 let blogCategory = {
                     idBlog : idBlog,
                     idCategory : category
                 }
-                // console.log(blogCategory,11111)
-
                 $.ajax({
                     type: 'POST',
                     url: 'http://localhost:3000/blogs/blogCategory',
@@ -194,7 +247,7 @@ function add() {
                     data: JSON.stringify(blogCategory),
 
                     success: (blogCategory) => {
-                        // console.log(blogCategory,222222)
+                        console.log(blogCategory,197)
                         showHome()
                     }
                 })
@@ -390,10 +443,16 @@ function login() {
         data: JSON.stringify(user),
 
         success: (token) => {
-            localStorage.setItem('token', JSON.stringify(token));
+            if(token === "Username is not existed" ||token === 'Password is wrong' ){
+                alert('Can not')
+                showNav();
+            }else{
+                localStorage.setItem('token', JSON.stringify(token));
+                showNav();
+                showHome();
+            }
 
-            showNav();
-            showHome();
+
         }
     })
 }

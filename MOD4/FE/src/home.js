@@ -126,52 +126,150 @@ function showList() {
 
                 if (token.role === 'admin') {
                     blogs.map(item => {
-                        html += `
-<div class="col">
-
-
-
-      <div class="card" style="width: 18rem;">
-                                  <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
-                                  <div class="card-body">
-                                    <h5 class="card-title">${item.nameCategory}</h5> 
-                                    <h6 class="card-title">${item.status},${item.date}</h6>
-                                     <h6 class="card-title">${item.username}</h6>
-                                    <p class="card-text">${item.content}</p>
-                                    <a href="#" class="btn btn-primary" onclick="remove(${item.id})">Delete</a>
-                                  </div>
-                                </div>
-</div>
-
-                                
-       `
-                    })
-                    html +=`</div>`
-                    $('#tbody').html(html)
-                } else {
-                    blogs.map(item => {
-                        html += `
-                           
-                                <div class="card" style="width: 18rem;">
-                                  <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
-                                  <div class="card-body">
+                        $.ajax({
+                            type: 'GET',
+                            url: `http://localhost:3000/likes/countLike/${item.id}`,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: 'Bearer ' + token.token
+                            },
+                            success: (likes) => {
+                                html += `<div class="col">
+                                  <div class="card" style="width: 18rem;">
+                                   <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
+                                   <div class="card-body">
                                     <h5 class="card-title">${item.nameCategory}</h5>
                                     <h6 class="card-title">${item.status},${item.date}</h6>
-                                     <h6 class="card-title">${item.username}</h6>
+                                    <h6 class="card-title">${item.username}</h6>
+                                    <h6 class="card-title">${likes[0].likes} <a href="#" class="btn btn-primary" onclick="checkLike(${item.id}, ${token.idUser})">Like</a></h6>
                                     <p class="card-text">${item.content}</p>
-                                  
-                                  </div>
-                                </div>
-                           
-                            `
+                                    <a href="#" class="btn btn-primary" onclick="remove(${item.id})">Delete</a>
+                                    <a  href="#"  class="btn btn-primary " onclick="showComment(${item.id})">Comment</a>
+                                   </div>
+                                 </div>
+                                </div>`
+                                html += `</div>`
+                                $('#tbody').html(html)
+                            }
+                        })
+
                     })
-                    html +=`</div>`
-                    $('#tbody').html(html)
+                } else {
+                    blogs.map(item => {
+                        $.ajax({
+                            type: 'GET',
+                            url: `http://localhost:3000/likes/countLike/${item.id}`,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: 'Bearer ' + token.token
+                            },
+                            success: (likes) => {
+                                html += `<div class="col">
+                                  <div class="card" style="width: 18rem;">
+                                   <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
+                                   <div class="card-body">
+                                    <h5 class="card-title">${item.nameCategory}</h5>
+                                    <h6 class="card-title">${item.status},${item.date}</h6>
+                                    <h6 class="card-title">${item.username}</h6>
+                                    <h6 class="card-title">${likes[0].likes} <a href="#" class="btn btn-primary" onclick="checkLike(${item.id}, ${token.idUser})">Like</a></h6>
+                                    <p class="card-text">${item.content}</p>
+                                    <a href="#" class="btn btn-primary" onclick="remove(${item.id})">Delete</a>
+                                    <a  href="#"  class="btn btn-primary " onclick="showComment(${item.id})">Comment</a>
+                                   </div>
+                                 </div>
+                                </div>`
+                                html += `</div>`
+                                $('#tbody').html(html)
+                            }
+                        })
+
+
+                    })
+
                 }
 
             }
         })
     }
+
+
+}
+
+function showComment(id) {
+    let token = localStorage.getItem('token')
+    if (token) {
+        token = JSON.parse(token)
+        $.ajax({
+            type: 'GET',
+            url: `http://localhost:3000/comments/showComment/${id}`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token.token
+            },
+            success: (comments) => {
+                let html = `
+                <p>${token.username}</p>
+                <input id="comment" placeholder="Comment">
+                <button onclick="commentSave(${id},${token.idUser})">Save</button>
+                <br>
+                <br>
+                <hr>`;
+                ;
+                comments.map(item => {
+                    html += `
+                <h6>${item.username}</h6>
+                <p>${item.comment}</p>
+                <hr>
+                   `
+                })
+                $('#body').html(html)
+
+            }
+        })
+    }
+}
+
+function checkLike(idBlog, idUser) {
+    let token = localStorage.getItem('token')
+    token = JSON.parse(token)
+    let like = {
+        user: idUser,
+        blog: idBlog
+    }
+    $.ajax({
+        type: 'PUT',
+        url: `http://localhost:3000/likes/checkLike`,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token.token
+        },
+        data: JSON.stringify(like),
+        success: () => {
+            showHome();
+        }
+    })
+}
+
+function commentSave(idBlog, idUser) {
+    let user = idUser;
+    let blog = idBlog;
+    let comment = $('#comment').val();
+    let Comment = {
+        user: user,
+        blog: blog,
+        comment: comment
+    };
+    $.ajax({
+        type: 'POST',
+        url: `http://localhost:3000/comments/commentSave`,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify(Comment),
+        success: () => {
+            showComment(idBlog);
+        }
+    })
 
 
 }
@@ -378,7 +476,7 @@ function showMyList() {
                                   </div>
                                 </div>`
                 })
-                html +=`</div>`
+                html += `</div>`
                 $('#tbody').html(html)
             }
 

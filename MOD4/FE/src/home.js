@@ -1,6 +1,6 @@
 showNav();
 
-function showList() {
+async function showList() {
     let token = localStorage.getItem('token')
     if (token) {
         token = JSON.parse(token)
@@ -12,7 +12,7 @@ function showList() {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token.token
             },
-            success: (blogs) => {
+            success: async (blogs) => {
                 let html = ` <div class="container">
                     <div class="row">
                         <div class="col-sm-8">
@@ -123,6 +123,61 @@ function showList() {
                
                 <div class="row">`;
                 if (token.role === 'admin') {
+                    await blogs.map(item => {
+                        html += `
+                                  <div class="col-3">
+                                  <div class="card" style="width: 18rem;">
+                                   <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
+                                   <div class="card-body">
+                                    <h5 class="card-title">${item.nameCategory}</h5>
+                                    <h6 class="card-title">${item.status},${item.date}</h6>
+                                    <h6 class="card-title">${item.username}</h6>
+                                    <h6 class="card-title"><div id="blog${item.id}"></div> <a href="#" class="btn btn-primary" onclick="checkLike(${item.id}, ${token.idUser})">Like</a></h6>
+                                    <p class="card-text">${item.content}</p>
+                                    <a href="#" class="btn btn-primary" onclick="remove(${item.id})">Delete</a>
+                                    <a  href="#"  class="btn btn-primary " onclick="showComment(${item.id})">Comment</a>
+                                   </div>
+                                 </div>
+                                </div>
+                                `
+
+
+                    })
+                    await $('#tbody').html(html)
+                     blogs.map(item => {
+                        $.ajax({
+                            type: 'GET',
+                            url: `http://localhost:3000/likes/countLike/${item.id}`,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: 'Bearer ' + token.token
+                            },
+                            success: (likes) => {
+                                $(`#blog${item.id}`).html(likes[0].likes);
+                            }
+                        })
+                    })
+                } else {
+                    await blogs.map(item => {
+                        html += `
+                                  <div class="col-3">
+                                  <div class="card" style="width: 18rem;">
+                                   <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
+                                   <div class="card-body">
+                                    <h5 class="card-title">${item.nameCategory}</h5>
+                                    <h6 class="card-title">${item.status},${item.date}</h6>
+                                    <h6 class="card-title">${item.username}</h6>
+                                    <h6 class="card-title"><div id="blog${item.id}"></div> <a href="#" class="btn btn-primary" onclick="checkLike(${item.id}, ${token.idUser})">Like</a></h6>
+                                    <p class="card-text">${item.content}</p>
+                                    <a  href="#"  class="btn btn-primary " onclick="showComment(${item.id})">Comment</a>
+                                   </div>
+                                 </div>
+                                </div>
+                                `
+
+
+                    })
+                    await $('#tbody').html(html)
                     blogs.map(item => {
                         $.ajax({
                             type: 'GET',
@@ -132,61 +187,10 @@ function showList() {
                                 Authorization: 'Bearer ' + token.token
                             },
                             success: (likes) => {
-                                html += `
-                                  <div class="col-3">
-                                  <div class="card" style="width: 18rem;">
-                                   <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
-                                   <div class="card-body">
-                                    <h5 class="card-title">${item.nameCategory}</h5>
-                                    <h6 class="card-title">${item.status},${item.date}</h6>
-                                    <h6 class="card-title">${item.username}</h6>
-                                    <h6 class="card-title">${likes[0].likes} <a href="#" class="btn btn-primary" onclick="checkLike(${item.id}, ${token.idUser})">Like</a></h6>
-                                    <p class="card-text">${item.content}</p>
-                                    <a href="#" class="btn btn-primary" onclick="remove(${item.id})">Delete</a>
-                                    <a  href="#"  class="btn btn-primary " onclick="showComment(${item.id})">Comment</a>
-                                   </div>
-                                 </div>
-                                </div>
-                                `
-                                html += `</div>
-                                            </div>`
-                                $('#tbody').html(html)
+                                $(`#blog${item.id}`).html(likes[0].likes);
                             }
                         })
-
                     })
-                } else {
-                    // blogs.map(item => {
-                    //     $.ajax({
-                    //         type: 'GET',
-                    //         url: `http://localhost:3000/likes/countLike/${item.id}`,
-                    //         headers: {
-                    //             'Content-Type': 'application/json',
-                    //             Authorization: 'Bearer ' + token.token
-                    //         },
-                    //         success: (likes) => {
-                    //             html += `<div class="col-3">
-                    //               <div class="card" style="width: 18rem;">
-                    //                <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
-                    //                <div class="card-body">
-                    //                 <h5 class="card-title">${item.nameCategory}</h5>
-                    //                 <h6 class="card-title">${item.status},${item.date}</h6>
-                    //                 <h6 class="card-title">${item.username}</h6>
-                    //                 <h6 class="card-title">${likes[0].likes} <a href="#" class="btn btn-primary" onclick="checkLike(${item.id}, ${token.idUser})">Like</a></h6>
-                    //                 <p class="card-text">${item.content}</p>
-                    //                 <a href="#" class="btn btn-primary" onclick="remove(${item.id})">Delete</a>
-                    //                 <a  href="#"  class="btn btn-primary " onclick="showComment(${item.id})">Comment</a>
-                    //                </div>
-                    //              </div>
-                    //             </div>`
-                    //             html += `</div>
-                    //                         </div>`
-                    //             $('#tbody').html(html)
-                    //         }
-                    //     })
-
-
-                    // })
 
                 }
 
@@ -647,7 +651,7 @@ function showFormEdit(id) {
     <input type="file" id="fileButton" onchange="uploadImage(event)">
              <div id="imgDiv"><img src="${blogs.image}" alt=""></div>
   </div>
-  <button type="submit" class="btn btn-primary" onclick="edit()">Edit</button>
+  <button class="btn btn-primary" onclick="edit(${blogs.id})">Edit</button>
    </div>
 </form>
 </div>

@@ -1,6 +1,6 @@
 showNav();
 
-function showList() {
+async function showList() {
     let token = localStorage.getItem('token')
     if (token) {
         token = JSON.parse(token)
@@ -12,149 +12,172 @@ function showList() {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token.token
             },
-            success: (blogs) => {
+            success: async (blogs) => {
                 let html = ` <div class="container">
-    <div class="row">
-        <div class="col-sm-8">
-            <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                <!-- Indicators -->
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                </ol>
-
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner" role="listbox">
-                    <div class="item active">
-                        <img src="https://media.gucci.com/content/DiaryHeroArticle_Standard_3200x1624/1553067904/DiaryHeroArticle_Bloom-FamilyPortrait-02_001_Default.jpg"
-                             alt="Los Angeles" class="d-block" style="width:100%">
-                        <div class="carousel-caption">
-                            <h3></h3>
-                            <p></p>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                <!-- Indicators -->
+                                <ol class="carousel-indicators">
+                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                                </ol>
+                
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item active">
+                                        <img src="https://media.gucci.com/content/DiaryHeroArticle_Standard_3200x1624/1553067904/DiaryHeroArticle_Bloom-FamilyPortrait-02_001_Default.jpg"
+                                             alt="Los Angeles" class="d-block" style="width:100%">
+                                        <div class="carousel-caption">
+                                            <h3></h3>
+                                            <p></p>
+                                        </div>
+                                    </div>
+                
+                                    <div class="item">
+                                        <img src="https://media.gucci.com/content/HeroRegularStandard_1600x675/1671464768/HeroRegularStandard_cny-beauty-2022-19dec22-09_001_Default.jpg"
+                                             alt="Chicago" class="d-block" style="width:100%">
+                                        <div class="carousel-caption">
+                                            <h3>More Sell $</h3>
+                                            <p>Lorem ipsum...</p>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <img src="https://media.gucci.com/content/DiaryHeroArticle_Standard_3200x1624/1596016804/DiaryHeroArticle_BEAUTY-BLOOM-REVIVAL-02_001_Default.jpg"
+                                             alt="New York" class="d-block" style="width:100%">
+                                        <div class="carousel-caption">
+                                            <h3>More Sell $</h3>
+                                            <p>Lorem ipsum...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <!-- Left and right controls -->
+                                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="well">
+                                <div class="well">
+                                    <h4> Sometime products with Gucci flora so beautiful... </h4>
+                                    <p>Between Fiction and Reality</p>
+                                </div>
+                                <img src="https://media.gucci.com/content/DiaryHeroArticle_Standard_950x680/1669629625/DiaryHeroArticle_gucci-beauty-wishes-campaign-01_001_Default.jpg"
+                                     alt="gucci" width="100%">
+                            </div>
+                
                         </div>
                     </div>
-
-                    <div class="item">
-                        <img src="https://media.gucci.com/content/HeroRegularStandard_1600x675/1671464768/HeroRegularStandard_cny-beauty-2022-19dec22-09_001_Default.jpg"
-                             alt="Chicago" class="d-block" style="width:100%">
-                        <div class="carousel-caption">
-                            <h3>More Sell $</h3>
-                            <p>Lorem ipsum...</p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <img src="https://media.gucci.com/content/DiaryHeroArticle_Standard_3200x1624/1596016804/DiaryHeroArticle_BEAUTY-BLOOM-REVIVAL-02_001_Default.jpg"
-                             alt="New York" class="d-block" style="width:100%">
-                        <div class="carousel-caption">
-                            <h3>More Sell $</h3>
-                            <p>Lorem ipsum...</p>
-                        </div>
-                    </div>
+                    <hr>
                 </div>
-
-                <!-- Left and right controls -->
-                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="well">
-                <div class="well">
-                    <h4> Sometime products with Gucci flora so beautiful... </h4>
-                    <p>Between Fiction and Reality</p>
+                
+                <div class="container text-center">
+                    <h3>Disrupting the traditional olfactive families that classify fragrances, Gucci Mémoire d’une Odeur creates a new
+                        one: Mineral Aromatic.</h3>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="https://media.gucci.com/content/DiaryArticleSingle_Standard_1536x2150/1553067903/DiaryArticleSingle_Bloom-FamilyPortrait-01_001_Default.jpg"
+                                 class="img-responsive" style="width:100%" alt="Image">
+                            <p>The new Gucci Bloom fragrance campaign tells the story of four women living in a garden of dreams.</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src="https://media.gucci.com/content/DiaryArticleSingle_Standard_1536x2150/1596095103/DiaryArticleSingle_BEAUTY-BLOOM-REVIVAL-04_001_Default.jpg"
+                                 class="img-responsive" style="width:100%" alt="Image">
+                            <p>Between Fiction and Reality </p>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="well">
+                                <p>“In the campaign, the flowers live a life of their own in a world, let’s say, real but surreal. The
+                                    dream of nature is a psychedelic dream, suspended in time, where Anjelica, Florence, Jodie and Susie
+                                    embody four different ways of being a woman.”</p>
+                            </div>
+                            <div class="well">
+                                <h3>"The new Gucci Bloom"</h3>
+                                <img src="https://media.gucci.com/content/DiaryHeroArticle_Standard_3200x1624/1596016804/DiaryHeroArticle_BEAUTY-BLOOM-REVIVAL-01_001_Default.jpg"
+                                     style="width: 100%" alt="gucci">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="well">
+                                <h3>"Gucci flora"</h3>
+                                <img src="https://media.gucci.com/content/DiaryHeroArticle_Standard_950x680/1553067904/DiaryHeroArticle_Bloom-FamilyPortrait-01_001_Default.jpg"
+                                     style=" width:100%" alt="gucci">
+                            </div>
+                            <div class="well">
+                                <p>The new Gucci Bloom fragrance campaign tells the story of four women living in a garden of
+                                    dreams.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
                 </div>
-                <img src="https://media.gucci.com/content/DiaryHeroArticle_Standard_950x680/1669629625/DiaryHeroArticle_gucci-beauty-wishes-campaign-01_001_Default.jpg"
-                     alt="gucci" width="100%">
-            </div>
-
-        </div>
-    </div>
-    <hr>
-</div>
-
-<div class="container text-center">
-    <h3>Disrupting the traditional olfactive families that classify fragrances, Gucci Mémoire d’une Odeur creates a new
-        one: Mineral Aromatic.</h3>
-    <br>
-    <div class="row">
-        <div class="col-sm-3">
-            <img src="https://media.gucci.com/content/DiaryArticleSingle_Standard_1536x2150/1553067903/DiaryArticleSingle_Bloom-FamilyPortrait-01_001_Default.jpg"
-                 class="img-responsive" style="width:100%" alt="Image">
-            <p>The new Gucci Bloom fragrance campaign tells the story of four women living in a garden of dreams.</p>
-        </div>
-        <div class="col-sm-3">
-            <img src="https://media.gucci.com/content/DiaryArticleSingle_Standard_1536x2150/1596095103/DiaryArticleSingle_BEAUTY-BLOOM-REVIVAL-04_001_Default.jpg"
-                 class="img-responsive" style="width:100%" alt="Image">
-            <p>Between Fiction and Reality </p>
-        </div>
-        <div class="col-sm-3">
-            <div class="well">
-                <p>“In the campaign, the flowers live a life of their own in a world, let’s say, real but surreal. The
-                    dream of nature is a psychedelic dream, suspended in time, where Anjelica, Florence, Jodie and Susie
-                    embody four different ways of being a woman.”</p>
-            </div>
-            <div class="well">
-                <h3>"The new Gucci Bloom"</h3>
-                <img src="https://media.gucci.com/content/DiaryHeroArticle_Standard_3200x1624/1596016804/DiaryHeroArticle_BEAUTY-BLOOM-REVIVAL-01_001_Default.jpg"
-                     style="width: 100%" alt="gucci">
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="well">
-                <h3>"Gucci flora"</h3>
-                <img src="https://media.gucci.com/content/DiaryHeroArticle_Standard_950x680/1553067904/DiaryHeroArticle_Bloom-FamilyPortrait-01_001_Default.jpg"
-                     style=" width:100%" alt="gucci">
-            </div>
-            <div class="well">
-                <p>The new Gucci Bloom fragrance campaign tells the story of four women living in a garden of
-                    dreams.</p>
-            </div>
-        </div>
-    </div>
-    <hr>
-</div>
-<link rel="stylesheet" href="../BE/public/blog2.css">
-
- 
-<div class="row row-cols-1 row-cols-md-3 g-4">`;
-
+                <link rel="stylesheet" href="../BE/public/blog2.css">
+               
+                <div class="row">`;
                 if (token.role === 'admin') {
-                    blogs.map(item => {
-                        $.ajax({
-                            type: 'GET',
-                            url: `http://localhost:3000/likes/countLike/${item.id}`,
-                            headers: {
-                                'Content-Type': 'application/json',
-                                Authorization: 'Bearer ' + token.token
-                            },
-                            success: (likes) => {
-                                html += `<div class="col">
+                    await blogs.map(item => {
+                        html += `
+                                  <div class="col-3">
                                   <div class="card" style="width: 18rem;">
                                    <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
                                    <div class="card-body">
                                     <h5 class="card-title">${item.nameCategory}</h5>
                                     <h6 class="card-title">${item.status},${item.date}</h6>
                                     <h6 class="card-title">${item.username}</h6>
-                                    <h6 class="card-title">${likes[0].likes} <a href="#" class="btn btn-primary" onclick="checkLike(${item.id}, ${token.idUser})">Like</a></h6>
+                                    <h6 class="card-title"><div id="blog${item.id}"></div> <a href="#" class="btn btn-primary" onclick="checkLike(${item.id}, ${token.idUser})">Like</a></h6>
                                     <p class="card-text">${item.content}</p>
                                     <a href="#" class="btn btn-primary" onclick="remove(${item.id})">Delete</a>
                                     <a  href="#"  class="btn btn-primary " onclick="showComment(${item.id})">Comment</a>
                                    </div>
                                  </div>
-                                </div>`
-                                html += `</div>`
-                                $('#tbody').html(html)
-                            }
-                        })
+                                </div>
+                                `
+
 
                     })
+                    await $('#tbody').html(html)
+                     blogs.map(item => {
+                        $.ajax({
+                            type: 'GET',
+                            url: `http://localhost:3000/likes/countLike/${item.id}`,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: 'Bearer ' + token.token
+                            },
+                            success: (likes) => {
+                                $(`#blog${item.id}`).html(likes[0].likes);
+                            }
+                        })
+                    })
                 } else {
+                    await blogs.map(item => {
+                        html += `
+                                  <div class="col-3">
+                                  <div class="card" style="width: 18rem;">
+                                   <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
+                                   <div class="card-body">
+                                    <h5 class="card-title">${item.nameCategory}</h5>
+                                    <h6 class="card-title">${item.status},${item.date}</h6>
+                                    <h6 class="card-title">${item.username}</h6>
+                                    <h6 class="card-title"><div id="blog${item.id}"></div> <a href="#" class="btn btn-primary" onclick="checkLike(${item.id}, ${token.idUser})">Like</a></h6>
+                                    <p class="card-text">${item.content}</p>
+                                    <a  href="#"  class="btn btn-primary " onclick="showComment(${item.id})">Comment</a>
+                                   </div>
+                                 </div>
+                                </div>
+                                `
+
+
+                    })
+                    await $('#tbody').html(html)
                     blogs.map(item => {
                         $.ajax({
                             type: 'GET',
@@ -164,26 +187,9 @@ function showList() {
                                 Authorization: 'Bearer ' + token.token
                             },
                             success: (likes) => {
-                                html += `<div class="col">
-                                  <div class="card" style="width: 18rem;">
-                                   <img src="${item.image}" width="200px" height="200px" class="card-img-top" alt="...">
-                                   <div class="card-body">
-                                    <h5 class="card-title">${item.nameCategory}</h5>
-                                    <h6 class="card-title">${item.status},${item.date}</h6>
-                                    <h6 class="card-title">${item.username}</h6>
-                                    <h6 class="card-title">${likes[0].likes} <a href="#" class="btn btn-primary" onclick="checkLike(${item.id}, ${token.idUser})">Like</a></h6>
-                                    <p class="card-text">${item.content}</p>
-                                    <a href="#" class="btn btn-primary" onclick="remove(${item.id})">Delete</a>
-                                    <a  href="#"  class="btn btn-primary " onclick="showComment(${item.id})">Comment</a>
-                                   </div>
-                                 </div>
-                                </div>`
-                                html += `</div>`
-                                $('#tbody').html(html)
+                                $(`#blog${item.id}`).html(likes[0].likes);
                             }
                         })
-
-
                     })
 
                 }
@@ -346,6 +352,7 @@ function showHome() {
                          
 
         </div>
+        
    `)
     showList();
 }
@@ -644,7 +651,7 @@ function showFormEdit(id) {
     <input type="file" id="fileButton" onchange="uploadImage(event)">
              <div id="imgDiv"><img src="${blogs.image}" alt=""></div>
   </div>
-  <button type="submit" class="btn btn-primary" onclick="edit()">Edit</button>
+  <button class="btn btn-primary" onclick="edit(${blogs.id})">Edit</button>
    </div>
 </form>
 </div>
